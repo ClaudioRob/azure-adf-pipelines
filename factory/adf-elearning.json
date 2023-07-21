@@ -1,0 +1,9 @@
+{
+	"name": "adf-elearning",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "47f3e2a6-5077-47ee-b150-918a0ca36b5f",
+		"tenantId": "3048dc87-43f0-4100-9acb-ae1971c79395"
+	}
+}
