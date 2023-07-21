@@ -1,0 +1,74 @@
+{
+	"name": "pipe_prametros",
+	"properties": {
+		"activities": [
+			{
+				"name": "proc_update_dtinsert",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[proc_activity_adf01]"
+				},
+				"linkedServiceName": {
+					"referenceName": "lsazuresql",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "proc_update_status",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "proc_update_dtinsert",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[proc_activity_adf02]",
+					"storedProcedureParameters": {
+						"preco": {
+							"value": {
+								"value": "@pipeline().parameters.parametro_valor",
+								"type": "Expression"
+							},
+							"type": "Decimal"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "lsazuresql",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"parametro_valor": {
+				"type": "float"
+			}
+		},
+		"folder": {
+			"name": "adf02_activities"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-07-21T12:55:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
